@@ -1,0 +1,14 @@
+{
+  "name": "kutuphane-app",
+  "version": "1.0.0",
+  "description": "LAB 3 icin kutuphane odunc takip uygulamasi (bilinçli bug icerir)",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
