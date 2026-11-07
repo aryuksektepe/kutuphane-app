@@ -50,3 +50,25 @@ test('zaten iade edilmiş bir kayıt tekrar iade edilemez', () => {
   assert.throws(() => iadeAl(kayit.id), /zaten iade edilmiş/);
 });
 
+test('kitap iade edildiğinde stok tam olarak bir artar', () => {
+  const kitap = kitapEkle('Tutunamayanlar', 'Oğuz Atay', 2);
+  const kayit = oduncVer(kitap.id, 'Ahmet');
+  assert.equal(stokGetir(kitap.id), 1);
+
+  iadeAl(kayit.id);
+
+  assert.equal(stokGetir(kitap.id), 2);
+});
+
+test('iade sonrası mevcut stok toplam stoğu aşamaz', () => {
+  const kitap = kitapEkle('Saatleri Ayarlama Enstitüsü', 'A. H. Tanpınar', 1);
+  const kayit = oduncVer(kitap.id, 'Ahmet');
+
+  iadeAl(kayit.id);
+
+  assert.ok(
+    kitap.mevcutStok <= kitap.toplamStok,
+    `mevcutStok (${kitap.mevcutStok}) toplamStok'u (${kitap.toplamStok}) aşmamalı`
+  );
+});
+

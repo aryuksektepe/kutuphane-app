@@ -30,21 +30,14 @@ function oduncVer(kitapId, kisi) {
 }
 
 // Bir ödünç kaydını günceller (genel amaçlı güncelleme fonksiyonu).
+// Stok değişikliği yapmaz; stoğu rafa geri koymak iadeAl'ın (iade.js) sorumluluğudur.
 function oduncKaydiGuncelle(oduncId, guncelleme) {
   const kayit = depo.oduncBul(oduncId);
   if (!kayit) {
     throw new Error(`${oduncId} numaralı ödünç kaydı bulunamadı.`);
   }
 
-  const ilkIadeTarihiVardiMi = Boolean(kayit.iadeTarihi);
   Object.assign(kayit, guncelleme);
-
-  // Kayıt ilk kez "iade edildi" olarak işaretleniyorsa, kitabı rafa
-  // geri koymak bu güncellemenin de sorumluluğu: iade edilen bir kayıt
-  // güncellenince kitabın stoğu burada da bir artırılıyor.
-  if (!ilkIadeTarihiVardiMi && kayit.iadeTarihi) {
-    depo.stokArtir(kayit.kitapId, 1);
-  }
 
   return kayit;
 }
